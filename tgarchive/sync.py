@@ -75,9 +75,9 @@ class Sync:
                     logging.info("fetched {} messages".format(n))
                     self.db.commit()
 
-                if 0 < self.config["fetch_limit"] <= n or ids:
-                    has = False
-                    break
+            if 0 < self.config["fetch_limit"] <= n or ids:
+                has = False
+                break
 
             self.db.commit()
             if has:
