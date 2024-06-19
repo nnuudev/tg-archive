@@ -76,7 +76,6 @@ class Sync:
                     self.db.commit()
 
             if 0 < self.config["fetch_limit"] <= n or ids:
-                has = False
                 break
 
             self.db.commit()
