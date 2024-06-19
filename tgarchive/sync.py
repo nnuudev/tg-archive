@@ -174,6 +174,24 @@ class Sync:
                     typ = "user_joined_by_link"
                 elif isinstance(m.action, telethon.tl.types.MessageActionChatDeleteUser):
                     typ = "user_left"
+                elif isinstance(m.action, telethon.tl.types.MessageActionChatCreate):
+                    typ = "chat_created"
+                    m.raw_text = m.action.title
+                elif isinstance(m.action, telethon.tl.types.MessageActionChannelCreate):
+                    typ = "channel_created"
+                    m.raw_text = m.action.title
+                elif isinstance(m.action, telethon.tl.types.MessageActionChatEditTitle):
+                    typ = "title_updated"
+                    m.raw_text = m.action.title
+                elif isinstance(m.action, telethon.tl.types.MessageActionChatEditPhoto):
+                    typ = "photo_updated"
+                    med = self._get_media(m)
+                elif isinstance(m.action, telethon.tl.types.MessageActionChatDeletePhoto):
+                    typ = "photo_deleted"
+                elif isinstance(m.action, telethon.tl.types.MessageActionPinMessage):
+                    typ = "message_pinned"
+                elif isinstance(m.action, telethon.tl.types.MessageActionHistoryClear):
+                    typ = "history_cleared"
 
             yield Message(
                 type=typ,
@@ -293,7 +311,8 @@ class Sync:
             )
         elif isinstance(msg.media, telethon.tl.types.MessageMediaPhoto) or \
                 isinstance(msg.media, telethon.tl.types.MessageMediaDocument) or \
-                isinstance(msg.media, telethon.tl.types.MessageMediaContact):
+                isinstance(msg.media, telethon.tl.types.MessageMediaContact) or \
+                isinstance(msg.action, telethon.tl.types.MessageActionChatEditPhoto):
             if self.config["download_media"]:
                 # Filter by extensions?
                 if len(self.config["media_mime_types"]) > 0:
