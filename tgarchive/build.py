@@ -100,11 +100,11 @@ class Build:
             self._build_rss(rss_entries, "index.rss", "index.atom")
 
     def load_template(self, fname):
-        with open(fname, "r") as f:
+        with open(fname, "r", encoding="utf8") as f:
             self.template = Template(f.read(), autoescape=True)
 
     def load_rss_template(self, fname):
-        with open(fname, "r") as f:
+        with open(fname, "r", encoding="utf8") as f:
             self.rss_template = Template(f.read(), autoescape=True)
 
     def make_filename(self, month, page) -> str:
